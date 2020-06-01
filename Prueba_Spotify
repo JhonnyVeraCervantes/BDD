@@ -1,25 +1,23 @@
+Use SpotifyDB;
+
 CREATE TABLE `User` (
-  `IdUser` int PRIMARY KEY,
+  `IdUser` int PRIMARY KEY NOT NULL,
   `nombre_u` varchar(20) NOT NULL,
   `Nombre` varchar(50) NOT NULL,
   `Apellido` varchar(50) NOT NULL,
   `CorreoElectronico` varchar(50),
   `FechaNacimiento` date NOT NULL,
   `Ingreso` datetime,
-  `IdCuenta` int,
-  `Idlog` int,
-  `IdTipo` int NOT NULL,
-  `IdPlaylist` int,
-  `IdRoles` int
+  `Idlog` int
 );
 
 CREATE TABLE `Login` (
   `Idlog` int PRIMARY KEY NOT NULL,
   `login` timestamp,
   `logout` timestamp,
-  `IdUser` int,
-  `IdCuenta` int
-);
+  `IdUser` int
+  );
+
 
 CREATE TABLE `Cuenta` (
   `IdCuenta` int PRIMARY KEY,
@@ -106,3 +104,6 @@ CREATE TABLE `Descargas` (
   `Nombre` varchar(255) NOT NULL,
   `IdCancion` int
 );
+
+ALTER TABLE `Login` ADD FOREIGN KEY (`IdUser`) REFERENCES `User` (`IdUser`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+CREATE INDEX `IdUser_idx` ON `Login` (`IdUser`);
