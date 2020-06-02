@@ -1,0 +1,432 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: db
+-- Tiempo de generación: 02-06-2020 a las 09:14:53
+-- Versión del servidor: 8.0.20
+-- Versión de PHP: 7.4.5
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `Spotify`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Albumes`
+--
+
+CREATE TABLE `Albumes` (
+  `IdAlbum` int NOT NULL,
+  `Title` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Anio` date NOT NULL,
+  `IdArtista` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `Albumes`
+--
+
+INSERT INTO `Albumes` (`IdAlbum`, `Title`, `Anio`, `IdArtista`) VALUES
+(1, 'IMAGINE', '2019-06-22', NULL),
+(2, 'HELP', '2019-08-19', NULL),
+(3, 'TOXICITY', '2001-08-14', NULL),
+(4, 'TNT', '1975-09-20', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Artistas`
+--
+
+CREATE TABLE `Artistas` (
+  `IdArtista` int NOT NULL,
+  `Nombres` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `FechaNacimiento` date NOT NULL,
+  `NumeroCanciones` smallint NOT NULL,
+  `IdCancion` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `Artistas`
+--
+
+INSERT INTO `Artistas` (`IdArtista`, `Nombres`, `FechaNacimiento`, `NumeroCanciones`, `IdCancion`) VALUES
+(1, 'JOHN LENNON', '1940-10-09', 50, 1),
+(2, 'PAUL MCCARNY', '1942-06-18', 100, 2),
+(3, 'SERJ TANKIAN', '1967-08-21', 45, 3),
+(4, 'BRIAN JOHNSON', '1947-10-05', 53, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Canciones`
+--
+
+CREATE TABLE `Canciones` (
+  `IdCancion` int NOT NULL,
+  `Titulo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Anio` date NOT NULL,
+  `IdGenero` int DEFAULT NULL,
+  `IdAlbum` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `Canciones`
+--
+
+INSERT INTO `Canciones` (`IdCancion`, `Titulo`, `Anio`, `IdGenero`, `IdAlbum`) VALUES
+(1, 'IMAGINE', '1975-01-26', NULL, NULL),
+(2, 'YESTERDAY', '1965-06-26', NULL, NULL),
+(3, 'CHOP SUEY', '1990-12-18', NULL, NULL),
+(4, 'TNT', '1986-08-24', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Cuenta`
+--
+
+CREATE TABLE `Cuenta` (
+  `IdCuenta` int NOT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `fecha_Create` timestamp NULL DEFAULT NULL,
+  `IdUser` int DEFAULT NULL,
+  `IdTipo` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Favoritos`
+--
+
+CREATE TABLE `Favoritos` (
+  `IdCancion` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Genero`
+--
+
+CREATE TABLE `Genero` (
+  `IdGenero` int NOT NULL,
+  `TipoGenero` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `Genero`
+--
+
+INSERT INTO `Genero` (`IdGenero`, `TipoGenero`) VALUES
+(1, 'SOFT ROCK'),
+(2, 'CHAMBER POP'),
+(3, 'HEAVY METAL'),
+(4, 'HARD ROCK');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Login`
+--
+
+CREATE TABLE `Login` (
+  `Idlog` int NOT NULL,
+  `login` date DEFAULT NULL,
+  `logout` time DEFAULT NULL,
+  `IdUser` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `Login`
+--
+
+INSERT INTO `Login` (`Idlog`, `login`, `logout`, `IdUser`) VALUES
+(1, '2020-06-02', '00:10:00', 1),
+(2, '2020-06-02', '00:40:00', 2),
+(3, '2020-06-02', '00:04:00', 3),
+(4, '2020-06-02', '00:15:00', 4),
+(5, '2020-06-02', '01:10:00', 5),
+(6, '2020-06-02', '00:20:00', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Playlist`
+--
+
+CREATE TABLE `Playlist` (
+  `IdPlaylist` int NOT NULL,
+  `Nombre` varchar(255) NOT NULL,
+  `IdUser` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Playlist_Cancion`
+--
+
+CREATE TABLE `Playlist_Cancion` (
+  `IdPlaylist` int NOT NULL,
+  `IdCancion` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Roles`
+--
+
+CREATE TABLE `Roles` (
+  `IdRoles` int NOT NULL,
+  `Name` varchar(55) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `TipoUser`
+--
+
+CREATE TABLE `TipoUser` (
+  `IdTipo` int NOT NULL,
+  `tipo` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `User`
+--
+
+CREATE TABLE `User` (
+  `IdUser` int NOT NULL,
+  `nombre_u` varchar(20) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
+  `Apellido` varchar(50) NOT NULL,
+  `CorreoElectronico` varchar(50) DEFAULT NULL,
+  `FechaNacimiento` date NOT NULL,
+  `Ingreso` date NOT NULL,
+  `IdRoles` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `User`
+--
+
+INSERT INTO `User` (`IdUser`, `nombre_u`, `Nombre`, `Apellido`, `CorreoElectronico`, `FechaNacimiento`, `Ingreso`, `IdRoles`) VALUES
+(1, 'fgartan0', 'Fayth', 'Gartan', 'fgartan0@squarespace.com', '1999-08-15', '2019-06-10', NULL),
+(2, 'csignorelli1', 'Claudio', 'Signorelli', 'csignorelli1@dyndns.org', '1997-02-16', '2020-01-29', NULL),
+(3, 'mlyte2', 'Minta', 'Lyte', 'mlyte2@sciencedaily.com', '1995-09-27', '2020-03-24', NULL),
+(4, 'mradbone3', 'Melisande', 'Radbone', 'mradbone3@infoseek.co.jp', '1998-09-20', '2019-12-26', NULL),
+(5, 'lcorona4', 'Luke', 'Corona', 'lcorona4@technorati.com', '1996-07-20', '2019-11-08', NULL),
+(6, 'vjindra5', 'Victoria', 'Jindra', 'vjindra5@tamu.edu', '1999-10-16', '2019-09-14', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_canciones`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_canciones` (
+`Titulo` varchar(100)
+,`Title` varchar(150)
+,`Nombres` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_usuario`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_usuario` (
+`nombre_u` varchar(20)
+,`login` date
+,`logout` time
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista de `vista_canciones` exportada como una tabla
+--
+DROP TABLE IF EXISTS `vista_canciones`;
+CREATE TABLE`vista_canciones`(
+    `Titulo` varchar(100) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `Title` varchar(150) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `Nombres` varchar(255) COLLATE utf8mb4_0900_ai_ci NOT NULL
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista de `vista_usuario` exportada como una tabla
+--
+DROP TABLE IF EXISTS `vista_usuario`;
+CREATE TABLE`vista_usuario`(
+    `nombre_u` varchar(20) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `login` date DEFAULT NULL,
+    `logout` time DEFAULT NULL
+);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `Albumes`
+--
+ALTER TABLE `Albumes`
+  ADD PRIMARY KEY (`IdAlbum`),
+  ADD KEY `IdArtista` (`IdArtista`);
+
+--
+-- Indices de la tabla `Artistas`
+--
+ALTER TABLE `Artistas`
+  ADD PRIMARY KEY (`IdArtista`);
+
+--
+-- Indices de la tabla `Canciones`
+--
+ALTER TABLE `Canciones`
+  ADD PRIMARY KEY (`IdCancion`),
+  ADD KEY `IdAlbum` (`IdAlbum`),
+  ADD KEY `IdGenero` (`IdGenero`);
+
+--
+-- Indices de la tabla `Cuenta`
+--
+ALTER TABLE `Cuenta`
+  ADD PRIMARY KEY (`IdCuenta`),
+  ADD KEY `IdTipo_idx` (`IdTipo`),
+  ADD KEY `IdUser` (`IdUser`);
+
+--
+-- Indices de la tabla `Favoritos`
+--
+ALTER TABLE `Favoritos`
+  ADD PRIMARY KEY (`IdCancion`);
+
+--
+-- Indices de la tabla `Genero`
+--
+ALTER TABLE `Genero`
+  ADD PRIMARY KEY (`IdGenero`);
+
+--
+-- Indices de la tabla `Login`
+--
+ALTER TABLE `Login`
+  ADD PRIMARY KEY (`Idlog`),
+  ADD KEY `IdUser_idx` (`IdUser`);
+
+--
+-- Indices de la tabla `Playlist`
+--
+ALTER TABLE `Playlist`
+  ADD PRIMARY KEY (`IdPlaylist`),
+  ADD KEY `IdUser_idx` (`IdUser`);
+
+--
+-- Indices de la tabla `Playlist_Cancion`
+--
+ALTER TABLE `Playlist_Cancion`
+  ADD PRIMARY KEY (`IdCancion`,`IdPlaylist`),
+  ADD KEY `IdCancion_idx` (`IdCancion`),
+  ADD KEY `IdPlaylist` (`IdPlaylist`);
+
+--
+-- Indices de la tabla `Roles`
+--
+ALTER TABLE `Roles`
+  ADD PRIMARY KEY (`IdRoles`);
+
+--
+-- Indices de la tabla `TipoUser`
+--
+ALTER TABLE `TipoUser`
+  ADD PRIMARY KEY (`IdTipo`);
+
+--
+-- Indices de la tabla `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`IdUser`),
+  ADD KEY `IdUser_idx` (`IdUser`),
+  ADD KEY `IdRoles` (`IdRoles`);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `Albumes`
+--
+ALTER TABLE `Albumes`
+  ADD CONSTRAINT `Albumes_ibfk_1` FOREIGN KEY (`IdArtista`) REFERENCES `Artistas` (`IdArtista`);
+
+--
+-- Filtros para la tabla `Canciones`
+--
+ALTER TABLE `Canciones`
+  ADD CONSTRAINT `Canciones_ibfk_1` FOREIGN KEY (`IdAlbum`) REFERENCES `Albumes` (`IdAlbum`),
+  ADD CONSTRAINT `Canciones_ibfk_2` FOREIGN KEY (`IdGenero`) REFERENCES `Genero` (`IdGenero`);
+
+--
+-- Filtros para la tabla `Cuenta`
+--
+ALTER TABLE `Cuenta`
+  ADD CONSTRAINT `Cuenta_ibfk_1` FOREIGN KEY (`IdTipo`) REFERENCES `TipoUser` (`IdTipo`),
+  ADD CONSTRAINT `Cuenta_ibfk_2` FOREIGN KEY (`IdUser`) REFERENCES `User` (`IdUser`);
+
+--
+-- Filtros para la tabla `Favoritos`
+--
+ALTER TABLE `Favoritos`
+  ADD CONSTRAINT `Favoritos_ibfk_1` FOREIGN KEY (`IdCancion`) REFERENCES `Canciones` (`IdCancion`);
+
+--
+-- Filtros para la tabla `Login`
+--
+ALTER TABLE `Login`
+  ADD CONSTRAINT `Login_ibfk_1` FOREIGN KEY (`IdUser`) REFERENCES `User` (`IdUser`);
+
+--
+-- Filtros para la tabla `Playlist`
+--
+ALTER TABLE `Playlist`
+  ADD CONSTRAINT `Playlist_ibfk_1` FOREIGN KEY (`IdUser`) REFERENCES `User` (`IdUser`);
+
+--
+-- Filtros para la tabla `Playlist_Cancion`
+--
+ALTER TABLE `Playlist_Cancion`
+  ADD CONSTRAINT `Playlist_Cancion_ibfk_1` FOREIGN KEY (`IdPlaylist`) REFERENCES `Playlist` (`IdPlaylist`),
+  ADD CONSTRAINT `Playlist_Cancion_ibfk_2` FOREIGN KEY (`IdCancion`) REFERENCES `Canciones` (`IdCancion`);
+
+--
+-- Filtros para la tabla `User`
+--
+ALTER TABLE `User`
+  ADD CONSTRAINT `User_ibfk_1` FOREIGN KEY (`IdRoles`) REFERENCES `Roles` (`IdRoles`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
